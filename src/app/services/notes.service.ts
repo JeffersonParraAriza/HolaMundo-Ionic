@@ -53,10 +53,14 @@ export class NotesService {
 
 
   async deleteNote(id: number) {
-    let notes = await this.getNotes();
-    notes = notes.filter(n => n.id !== id);
-    await this.saveNotes(notes);
+    await this.initStorage();
+
+    const notes = await this.getNotes();
+    const filtered = notes.filter(n => n.id !== id);
+
+    await this._storage?.set(this.NOTES_KEY, filtered);
   }
+
 
   private async initStorage() {
     if (!this._storage) {

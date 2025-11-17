@@ -1,13 +1,20 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>modal-confirm</ion-title>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Confirmar</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">modal-confirm</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+
+  <h2>¿Eliminar esta nota?</h2>
+  <p>Esta acción no se puede deshacer.</p>
+
+  <ion-button expand="block" color="danger" (click)="confirmDelete()">
+    Eliminar
+  </ion-button>
+
+  <ion-button expand="block" fill="clear" (click)="cancel()">
+    Cancelar
+  </ion-button>
+
 </ion-content>
