@@ -4,20 +4,21 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
 
-  <ion-list>
-    <ion-item *ngFor="let note of notes" (click)="goToDetail(note)">
+  <ion-list *ngIf="notes.length > 0">
+    <ion-item button detail="true" *ngFor="let note of notes" (click)="goToDetail(note)">
       <ion-label>
         <h2>{{ note.title }}</h2>
-        <p>{{ note.date }}</p>
+        <p>{{ note.content }}</p>
+        <small>{{ note.date }}</small>
       </ion-label>
     </ion-item>
   </ion-list>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button color="success" (click)="goToCreate()">
-      <ion-icon name="add"></ion-icon>
+    <ion-fab-button color="success" (click)="createNote()">
+      +
     </ion-fab-button>
   </ion-fab>
 

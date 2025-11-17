@@ -1,22 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+
 import {
   IonHeader, IonToolbar, IonTitle, IonContent,
-  IonList, IonItem, IonLabel, IonFab, IonFabButton, IonIcon, IonToast
-} from '@ionic/angular/standalone';
+  IonList, IonItem, IonLabel, IonButton, IonFab, IonFabButton, IonIcon } from '@ionic/angular/standalone';
+
 import { NotesService, Note } from '../services/notes.service';
-import { add } from 'ionicons/icons';
-import { addIcons } from 'ionicons';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [IonToast,
+  imports: [IonIcon, 
     IonHeader, IonToolbar, IonTitle, IonContent,
-    IonList, IonItem, IonLabel,
-    IonFab, IonFabButton, IonIcon
+    IonList, IonItem, IonLabel, IonButton,
+    IonFab, IonFabButton,
+    CommonModule
   ]
 })
 export class HomePage implements OnInit {
@@ -26,35 +27,32 @@ export class HomePage implements OnInit {
   constructor(
     private notesService: NotesService,
     private router: Router
-  ) {
-    addIcons({ add });
-  }
+  ) { }
 
   async ngOnInit() {
     await this.loadNotes();
   }
 
-  ionViewWillEnter() {
-    this.loadNotes();
+  async ionViewWillEnter() {
+    await this.loadNotes();
   }
 
   async loadNotes() {
     this.notes = await this.notesService.getNotes();
-    console.log('TEST loadNotes home: ',this.notes);
+
+    console.log("NOTES FOUND:", this.notes);
 
     if (this.notes.length === 0) {
       this.router.navigate(['/empty-state']);
     }
   }
 
-  goToCreate() {
-    this.router.navigate(['/create-edit']);
+  goToDetail(note: Note) {
+    this.router.navigate(['/detail', note.id]);
   }
 
-  goToDetail(note: Note) {
-    this.router.navigate(['/detail'], {
-      queryParams: { id: note.id }
-    });
+  createNote() {
+    this.router.navigate(['/create-edit']);
   }
 
 }
