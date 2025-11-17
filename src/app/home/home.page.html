@@ -1,21 +1,24 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>Hola Mundo con Ionic 🚀</ion-title>
+    <ion-title>FastNotes</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <h2>¡Bienvenido, Jefferson!</h2>
-  <p>Tu entorno de desarrollo Ionic está funcionando correctamente.</p>
+<ion-content>
 
-  <ion-button expand="block" color="success" (click)="mostrarMensaje()">
-    Presiona para saludar 👋
-  </ion-button>
+  <ion-list>
+    <ion-item *ngFor="let note of notes" (click)="goToDetail(note)">
+      <ion-label>
+        <h2>{{ note.title }}</h2>
+        <p>{{ note.date }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 
-  <ion-toast
-    [isOpen]="mostrarToast"
-    message="¡Hola! Estás corriendo Ionic sin errores 😄"
-    duration="2000"
-    (didDismiss)="mostrarToast = false">
-  </ion-toast>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="success" (click)="goToCreate()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
 </ion-content>
