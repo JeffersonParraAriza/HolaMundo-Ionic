@@ -25,6 +25,9 @@ import { NotesService, Note } from '../services/notes.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AlertController, ToastController } from '@ionic/angular';
+import { ToastService } from '../services/toast.service';
+import { addIcons } from 'ionicons';
+import { add } from 'ionicons/icons';
 
 @Component({
   selector: 'app-home',
@@ -58,6 +61,10 @@ import { AlertController, ToastController } from '@ionic/angular';
 })
 export class HomePage implements OnInit {
 
+ constructor() {
+    addIcons({ add });
+  }
+
   notes: Note[] = [];
   filteredNotes: Note[] = [];
   categories: string[] = [];
@@ -75,7 +82,8 @@ export class HomePage implements OnInit {
   formTagsInput = '';
 
   private readonly notesService = inject(NotesService);
-  private readonly toastController = inject(ToastController);
+  private readonly toast = inject(ToastService);
+  // private readonly toastController = inject(ToastController);
   private readonly alertController = inject(AlertController);
 
   async ngOnInit() {
@@ -164,12 +172,13 @@ export class HomePage implements OnInit {
     const trimmedTitle = this.formTitle.trim();
 
     if (!trimmedTitle) {
-      const toast = await this.toastController.create({
-        message: 'El título es obligatorio.',
-        duration: 2000,
-        color: 'warning'
-      });
-      await toast.present();
+      // const toast = await this.toastController.create({
+      //   message: 'El título es obligatorio.',
+      //   duration: 2000,
+      //   color: 'warning'
+      // });
+      // await toast.present();
+      this.toast.show('El título es obligatorio', 'warning');
       return;
     }
 
@@ -184,12 +193,14 @@ export class HomePage implements OnInit {
     await this.loadNotes();
     this.cancelEdit();
 
-    const toast = await this.toastController.create({
-      message: 'Nota guardada correctamente.',
-      duration: 2000,
-      color: 'success'
-    });
-    await toast.present();
+    // const toast = await this.toastController.create({
+    //   message: 'Nota guardada correctamente.',
+    //   duration: 2000,
+    //   color: 'success'
+    // });
+    // await toast.present();
+
+    this.toast.show('Nota guardada correctamente.', 'success');
   }
 
   // RF003/RF011 – Confirmación antes de eliminar
@@ -225,12 +236,15 @@ export class HomePage implements OnInit {
     await this.loadNotes();
     this.cancelEdit();
 
-    const toast = await this.toastController.create({
-      message: 'Nota eliminada.',
-      duration: 2000,
-      color: 'medium'
-    });
-    await toast.present();
+    // const toast = await this.toastController.create({
+    //   message: 'Nota eliminada.',
+    //   duration: 2000,
+    //   color: 'medium'
+    // });
+    // await toast.present();
+
+    this.toast.show('Nota eliminada', 'medium');
+
   }
 
   private parseTags(value: string): string[] {

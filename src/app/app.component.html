@@ -1,3 +1,11 @@
 <ion-app>
   <ion-router-outlet></ion-router-outlet>
+
+  <ion-toast
+    [isOpen]="toastState.isOpen"
+    [message]="toastState.message"
+    [duration]="2000"
+    [color]="toastState.color"
+    (didDismiss)="toastState.isOpen = false">
+  </ion-toast>
 </ion-app>

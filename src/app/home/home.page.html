@@ -50,7 +50,7 @@
 </ion-header>
 
 <!-- Vista LISTA -->
-<ion-content *ngIf="!showForm">
+<ion-content *ngIf="!showForm" class="ion-padding fab-safe-area">
   <ng-container *ngIf="filteredNotes && filteredNotes.length; else emptyState">
     <!-- RF009 – Lista ordenada correspondiente al servicio -->
     <ion-list>
@@ -85,13 +85,13 @@
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="startCreate()">
-      <ion-icon name="add"></ion-icon>
+      <ion-icon name="add" color="light"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 </ion-content>
 
 <!-- RF001/RF002 – Formulario crear/editar -->
-<ion-content *ngIf="showForm" class="ion-padding">
+<ion-content *ngIf="showForm" class="fab-safe-area ion-padding">
   <ion-list lines="full">
     <ion-item>
       <ion-label position="stacked">Título *</ion-label>

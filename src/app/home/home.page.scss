@@ -59,3 +59,7 @@
   --color: var(--ion-color-primary);
   border: 1px solid var(--ion-color-primary);
 }
+
+ion-fab {
+   bottom: calc(env(safe-area-inset-bottom) + 32px);
+}
