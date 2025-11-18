@@ -19,7 +19,8 @@ import {
   IonTextarea,
   IonSegment,
   IonSegmentButton,
-  IonChip
+  IonChip,
+  IonAlert,
 } from '@ionic/angular/standalone';
 import { NotesService, Note } from '../services/notes.service';
 import { CommonModule } from '@angular/common';
@@ -35,6 +36,7 @@ import { add } from 'ionicons/icons';
   styleUrls: ['./home.page.scss'],
   standalone: true,
   imports: [
+    IonAlert,
     IonIcon,
     IonHeader,
     IonToolbar,
@@ -56,12 +58,11 @@ import { add } from 'ionicons/icons';
     IonSegmentButton,
     IonChip,
     CommonModule,
-    FormsModule
-  ]
+    FormsModule,
+  ],
 })
 export class HomePage implements OnInit {
-
- constructor() {
+  constructor() {
     addIcons({ add });
   }
 
@@ -187,7 +188,7 @@ export class HomePage implements OnInit {
       title: trimmedTitle,
       content: this.formContent,
       category: this.formCategory.trim(),
-      tags: this.parseTags(this.formTagsInput)
+      tags: this.parseTags(this.formTagsInput),
     });
 
     await this.loadNotes();
@@ -204,31 +205,54 @@ export class HomePage implements OnInit {
   }
 
   // RF003/RF011 – Confirmación antes de eliminar
-  async confirmDelete() {
-    if (!this.editingNote) {
-      return;
-    }
 
-    const alert = await this.alertController.create({
-      header: 'Eliminar nota',
-      message: '¿Deseas eliminar esta nota?',
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel'
-        },
-        {
-          text: 'Eliminar',
-          role: 'destructive',
-          handler: () => {
-            this.deleteNote(this.editingNote!.id);
-          }
-        }
-      ]
-    });
+deleteId: number | null = null;
 
-    await alert.present();
-  }
+openDeleteAlert(note: Note) {
+  this.deleteId = note.id;
+}
+
+
+alertButtons = [
+  { text: 'Cancelar', role: 'cancel' },
+  {
+    text: 'Eliminar',
+    role: 'destructive',
+    handler: async () => {
+      if (this.deleteId != null) {
+        await this.deleteNote(this.deleteId);
+        this.deleteId = null;
+      }
+    },
+  },
+];
+
+
+  // async confirmDelete() {
+  //   if (!this.editingNote) {
+  //     return;
+  //   }
+
+  //   const alert = await this.alertController.create({
+  //     header: 'Eliminar nota',
+  //     message: '¿Deseas eliminar esta nota?',
+  //     buttons: [
+  //       {
+  //         text: 'Cancelar',
+  //         role: 'cancel',
+  //       },
+  //       {
+  //         text: 'Eliminar',
+  //         role: 'destructive',
+  //         handler: () => {
+  //           this.deleteNote(this.editingNote!.id);
+  //         },
+  //       },
+  //     ],
+  //   });
+
+  //   await alert.present();
+  // }
 
   // RF003/RF013 – Eliminar nota y mostrar notificación
   private async deleteNote(id: number) {
@@ -250,7 +274,7 @@ export class HomePage implements OnInit {
   private parseTags(value: string): string[] {
     return value
       .split(',')
-      .map(tag => tag.trim())
-      .filter(tag => tag.length > 0);
+      .map((tag) => tag.trim())
+      .filter((tag) => tag.length > 0);
   }
 }

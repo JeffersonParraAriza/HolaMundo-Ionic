@@ -136,12 +136,33 @@
       Cancelar
     </ion-button>
 
-    <ion-button
+    <!-- <ion-button
       *ngIf="editingNote"
       expand="block"
       color="danger"
       (click)="confirmDelete()">
       Eliminar nota
+    </ion-button> -->
+
+    <ion-button
+      id="present-alert"
+      expand="block"
+      color="danger"
+      *ngIf="editingNote"
+      (click)="openDeleteAlert(editingNote)"
+    >
+      Eliminar nota
     </ion-button>
+    
+    <ion-alert
+      trigger="present-alert"
+      header="Eliminar nota"
+      message="¿Deseas eliminar esta nota?"
+      [buttons]="alertButtons"
+      (didDismiss)="deleteId = null"
+    ></ion-alert>
+
+
+
   </div>
 </ion-content>
